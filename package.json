@@ -1,6 +1,7 @@
 {
   "name": "notus-react",
   "version": "1.1.0",
+  "homepage": "https://vedant-jain03.github.io/metadaters_sih",
   "description": "Notus React - A free Tailwind CSS and React UI Kit and Admin by Creative Tim.",
   "repository": "https://github.com/creativetimofficial/notus-react",
   "license": "MIT",
@@ -21,6 +22,8 @@
     "tailwindcss": "2.0.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build && gulp licenses",
     "test": "react-scripts test",
@@ -45,5 +48,8 @@
   },
   "optionalDependencies": {
     "typescript": "4.2.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
