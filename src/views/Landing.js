@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 
 import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
-
+import IndexNavbar from "components/Navbars/IndexNavbar.js";
 export default function Landing() {
   return (
     <>
-      <Navbar transparent />
+      <IndexNavbar fixed />
       <main>
         <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
           <div
@@ -29,7 +29,7 @@ export default function Landing() {
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
                   <h1 className="text-white font-semibold text-5xl">
-                    Your story starts with us.
+                    The Metadaters
                   </h1>
                   <p className="mt-4 text-lg text-blueGray-200">
                     This is a simple example of a Landing Page you can build
@@ -70,7 +70,7 @@ export default function Landing() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                       <i className="fas fa-award"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                    <h6 className="text-xl font-semibold">Load Balancing</h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
                       Divide details about your product or agency work into
                       parts. A paragraph describing a feature will be enough.
@@ -116,7 +116,7 @@ export default function Landing() {
                   <i className="fas fa-user-friends text-xl"></i>
                 </div>
                 <h3 className="text-3xl mb-2 font-semibold leading-normal">
-                  Working with us is a pleasure
+                  About us
                 </h3>
                 <p className="text-lg font-light leading-relaxed mt-4 mb-4 text-blueGray-600">
                   Don't let your uses guess by attaching tooltips and popoves to
@@ -154,7 +154,7 @@ export default function Landing() {
                       ></polygon>
                     </svg>
                     <h4 className="text-xl font-bold text-white">
-                      Top Notch Services
+                      About Us
                     </h4>
                     <p className="text-md font-light mt-2 text-white">
                       The Arctic Ocean freezes every winter and much of the
@@ -203,7 +203,7 @@ export default function Landing() {
                   <div className="text-lightBlue-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-lightBlue-300">
                     <i className="fas fa-rocket text-xl"></i>
                   </div>
-                  <h3 className="text-3xl font-semibold">A growing company</h3>
+                  <h3 className="text-3xl font-semibold">Revenue Model</h3>
                   <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
                     The extension comes with three pre-built pages to help you
                     get started faster. You can change the text and images and
@@ -263,7 +263,7 @@ export default function Landing() {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center text-center mb-24">
               <div className="w-full lg:w-6/12 px-4">
-                <h2 className="text-4xl font-semibold">Here are our heroes</h2>
+                <h2 className="text-4xl font-semibold">Technology we use</h2>
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">
                   According to the National Oceanic and Atmospheric
                   Administration, Ted, Scambos, NSIDClead scentist, puts the
@@ -284,26 +284,6 @@ export default function Landing() {
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
                       Web Developer
                     </p>
-                    <div className="mt-6">
-                      <button
-                        className="bg-lightBlue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                        type="button"
-                      >
-                        <i className="fab fa-twitter"></i>
-                      </button>
-                      <button
-                        className="bg-lightBlue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                        type="button"
-                      >
-                        <i className="fab fa-facebook-f"></i>
-                      </button>
-                      <button
-                        className="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                        type="button"
-                      >
-                        <i className="fab fa-dribbble"></i>
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>

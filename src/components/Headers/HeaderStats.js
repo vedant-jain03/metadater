@@ -9,13 +9,27 @@ export default function HeaderStats() {
     <>
       {/* Header */}
       <div className="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12">
-        <div className="px-4 md:px-10 mx-auto w-full">
+        <div className="container relative mx-auto">
+          <div className="items-center flex flex-wrap">
+            <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+              <div className="pr-12">
+                <h1 className="text-white font-semibold text-5xl">
+                  Dashboard
+                </h1>
+                <p className="mt-4 text-lg text-blueGray-200">
+                  The list of all trucks along with the action items!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-4 md:px-10 mx-auto w-full mt-6">
           <div>
             {/* Card stats */}
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="TRAFFIC"
+                  statSubtitle="Total Overloading"
                   statTitle="350,897"
                   statArrow="up"
                   statPercent="3.48"
