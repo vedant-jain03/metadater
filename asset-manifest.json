@@ -1,0 +1,38 @@
+{
+  "files": {
+    "main.css": "/metadaters_sih/static/css/main.f4caecf4.chunk.css",
+    "main.js": "/metadaters_sih/static/js/main.9b90d752.chunk.js",
+    "main.js.map": "/metadaters_sih/static/js/main.9b90d752.chunk.js.map",
+    "runtime-main.js": "/metadaters_sih/static/js/runtime-main.926cb899.js",
+    "runtime-main.js.map": "/metadaters_sih/static/js/runtime-main.926cb899.js.map",
+    "static/css/2.9a7f0960.chunk.css": "/metadaters_sih/static/css/2.9a7f0960.chunk.css",
+    "static/js/2.3e172e40.chunk.js": "/metadaters_sih/static/js/2.3e172e40.chunk.js",
+    "static/js/2.3e172e40.chunk.js.map": "/metadaters_sih/static/js/2.3e172e40.chunk.js.map",
+    "index.html": "/metadaters_sih/index.html",
+    "static/css/2.9a7f0960.chunk.css.map": "/metadaters_sih/static/css/2.9a7f0960.chunk.css.map",
+    "static/css/main.f4caecf4.chunk.css.map": "/metadaters_sih/static/css/main.f4caecf4.chunk.css.map",
+    "static/js/2.3e172e40.chunk.js.LICENSE.txt": "/metadaters_sih/static/js/2.3e172e40.chunk.js.LICENSE.txt",
+    "static/media/component-info-2.png": "/metadaters_sih/static/media/component-info-2.5212a3a6.png",
+    "static/media/component-info-card.png": "/metadaters_sih/static/media/component-info-card.d19a4464.png",
+    "static/media/component-menu.png": "/metadaters_sih/static/media/component-menu.418bd949.png",
+    "static/media/component-profile-card.png": "/metadaters_sih/static/media/component-profile-card.52a3ee76.png",
+    "static/media/documentation.png": "/metadaters_sih/static/media/documentation.014ebef5.png",
+    "static/media/all.min.css": "/metadaters_sih/static/media/fa-solid-900.efbd5d20.eot",
+    "static/media/landing.jpg": "/metadaters_sih/static/media/landing.8150f1b0.jpg",
+    "static/media/login.jpg": "/metadaters_sih/static/media/login.9c1ecd37.jpg",
+    "static/media/pattern_react.png": "/metadaters_sih/static/media/pattern_react.01996482.png",
+    "static/media/profile.jpg": "/metadaters_sih/static/media/profile.c62f8a5b.jpg",
+    "static/media/register_bg_2.png": "/metadaters_sih/static/media/register_bg_2.4f2cb0ac.png",
+    "static/media/team-1-800x800.jpg": "/metadaters_sih/static/media/team-1-800x800.fa5a7ac2.jpg",
+    "static/media/team-2-800x800.jpg": "/metadaters_sih/static/media/team-2-800x800.3e08ef14.jpg",
+    "static/media/team-3-800x800.jpg": "/metadaters_sih/static/media/team-3-800x800.19201574.jpg",
+    "static/media/team-4-470x470.png": "/metadaters_sih/static/media/team-4-470x470.4ef82ef4.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.926cb899.js",
+    "static/css/2.9a7f0960.chunk.css",
+    "static/js/2.3e172e40.chunk.js",
+    "static/css/main.f4caecf4.chunk.css",
+    "static/js/main.9b90d752.chunk.js"
+  ]
+}
