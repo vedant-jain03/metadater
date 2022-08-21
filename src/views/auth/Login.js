@@ -1,7 +1,57 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
+
+  const history = useHistory();
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const server = process.env.REACT_APP_SERVER_IP;
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+
+      const response = await fetch(`${server}/admin-login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "LOGIN_SUCCESSFUL") {
+        // save user details in local storage
+        localStorage.setItem("userDetails", JSON.stringify(data.UserDetails));
+        localStorage.setItem("jwtToken", data.jwtToken);
+        alert(data?.message);
+        history.push("/admin");
+        return;
+      }
+      else if (data.status === "FAILED" && data.message === "Validation Errors") {
+        alert(data?.validationErrorsList[data?.validationErrorsList?.length - 1]?.message);
+        return;
+      }
+      else {
+        alert(data?.message);
+        return;
+      }
+
+    } catch (error) {
+      alert(error?.message);
+      return;
+    }
+
+  }
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -28,6 +78,7 @@ export default function Login() {
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -42,6 +93,7 @@ export default function Login() {
                       type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
@@ -49,6 +101,7 @@ export default function Login() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={(e) => handleSubmit(e)}
                     >
                       Sign In
                     </button>

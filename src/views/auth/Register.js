@@ -1,6 +1,57 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 export default function Register() {
+
+  const history = useHistory();
+
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
+  const server = process.env.REACT_APP_SERVER_IP;
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+    try {
+      const response = await fetch(`${server}/register-admin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          isAdmin
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "SUCCESS") {
+        alert(data?.message);
+        history.push("/auth/login");
+        return;
+      }
+      else if (data.status === "FAILED" && data.message === "Validation Errors") {
+        alert(data?.validationErrorsList[data?.validationErrorsList?.length - 1]?.message);
+        return;
+      }
+      else {
+        alert(data?.message);
+        return;
+      }
+
+    } catch (error) {
+      alert(error?.message);
+      return;
+    }
+
+  }
+
   return (
     <>
       <div className="container mx-auto px-4 h-full">
@@ -24,9 +75,10 @@ export default function Register() {
                       Name
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Name"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
@@ -41,6 +93,7 @@ export default function Register() {
                       type="email"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
 
@@ -55,6 +108,7 @@ export default function Register() {
                       type="password"
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
@@ -64,6 +118,7 @@ export default function Register() {
                         id="customCheckLogin"
                         type="checkbox"
                         className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
+                        onChange={(e) => setIsAdmin(e.target.checked)}
                       />
                       <span className="ml-2 text-sm font-semibold text-blueGray-600">
                         Super Admin
@@ -75,6 +130,7 @@ export default function Register() {
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+                      onClick={(e) => handleSubmit(e)}
                     >
                       Create Account
                     </button>

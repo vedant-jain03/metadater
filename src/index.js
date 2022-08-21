@@ -16,7 +16,10 @@ import Landing from "views/Landing.js";
 import Profile from "views/Profile.js";
 import Index from "views/Index.js";
 
+
+
 ReactDOM.render(
+
   <HashRouter>
     <Switch>
       {/* add routes with layouts */}
