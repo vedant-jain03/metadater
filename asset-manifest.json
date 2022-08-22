@@ -1,17 +1,19 @@
 {
   "files": {
     "main.css": "/metadater/static/css/main.f4caecf4.chunk.css",
-    "main.js": "/metadater/static/js/main.2765fa39.chunk.js",
-    "main.js.map": "/metadater/static/js/main.2765fa39.chunk.js.map",
+    "main.js": "/metadater/static/js/main.53aadf9c.chunk.js",
+    "main.js.map": "/metadater/static/js/main.53aadf9c.chunk.js.map",
     "runtime-main.js": "/metadater/static/js/runtime-main.11476ce6.js",
     "runtime-main.js.map": "/metadater/static/js/runtime-main.11476ce6.js.map",
     "static/css/2.883acc58.chunk.css": "/metadater/static/css/2.883acc58.chunk.css",
-    "static/js/2.a81ff3c1.chunk.js": "/metadater/static/js/2.a81ff3c1.chunk.js",
-    "static/js/2.a81ff3c1.chunk.js.map": "/metadater/static/js/2.a81ff3c1.chunk.js.map",
+    "static/js/2.a7c413c7.chunk.js": "/metadater/static/js/2.a7c413c7.chunk.js",
+    "static/js/2.a7c413c7.chunk.js.map": "/metadater/static/js/2.a7c413c7.chunk.js.map",
     "index.html": "/metadater/index.html",
     "static/css/2.883acc58.chunk.css.map": "/metadater/static/css/2.883acc58.chunk.css.map",
     "static/css/main.f4caecf4.chunk.css.map": "/metadater/static/css/main.f4caecf4.chunk.css.map",
-    "static/js/2.a81ff3c1.chunk.js.LICENSE.txt": "/metadater/static/js/2.a81ff3c1.chunk.js.LICENSE.txt",
+    "static/js/2.a7c413c7.chunk.js.LICENSE.txt": "/metadater/static/js/2.a7c413c7.chunk.js.LICENSE.txt",
+    "static/media/aboutUs.0f837019.jpeg": "/metadater/static/media/aboutUs.0f837019.jpeg",
+    "static/media/background1.b2653fa7.png": "/metadater/static/media/background1.b2653fa7.png",
     "static/media/component-info-2.png": "/metadater/static/media/component-info-2.5212a3a6.png",
     "static/media/component-info-card.png": "/metadater/static/media/component-info-card.d19a4464.png",
     "static/media/component-menu.png": "/metadater/static/media/component-menu.418bd949.png",
@@ -20,6 +22,7 @@
     "static/media/all.min.css": "/metadater/static/media/fa-solid-900.efbd5d20.eot",
     "static/media/landing.jpg": "/metadater/static/media/landing.8150f1b0.jpg",
     "static/media/login.jpg": "/metadater/static/media/login.9c1ecd37.jpg",
+    "static/media/outSolution.4ce8b1b3.jpeg": "/metadater/static/media/outSolution.4ce8b1b3.jpeg",
     "static/media/pattern_react.png": "/metadater/static/media/pattern_react.01996482.png",
     "static/media/profile.jpg": "/metadater/static/media/profile.c62f8a5b.jpg",
     "static/media/register_bg_2.png": "/metadater/static/media/register_bg_2.4f2cb0ac.png",
@@ -31,8 +34,8 @@
   "entrypoints": [
     "static/js/runtime-main.11476ce6.js",
     "static/css/2.883acc58.chunk.css",
-    "static/js/2.a81ff3c1.chunk.js",
+    "static/js/2.a7c413c7.chunk.js",
     "static/css/main.f4caecf4.chunk.css",
-    "static/js/main.2765fa39.chunk.js"
+    "static/js/main.53aadf9c.chunk.js"
   ]
 }
