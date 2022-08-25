@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect} from 'react'
 import Validator from '../../utils/Validator';
 import "../../assets/styles/popup.css"
-
-
-// components
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 import CardStats from "components/Cards/CardStats.js";
 
-function Popup({ setPopup }) {
 
+
+function Popup({ setPopup }) {
   const [truckNumber, setTruckNumber] = useState("");
   const [location, setLocation] = useState("");
   const [authority, setAuthority] = useState("");
@@ -196,8 +196,92 @@ function Popup({ setPopup }) {
   )
 }
 
+const UserData = [
+  {
+    id: 0,
+    year: 2016,
+    userGain: "0",
+    userLost: 823,
+  },
+  {
+    id: 1,
+    year: 2016,
+    userGain: "2022-08-25T15:17:53.561Z",
+    userLost: 823,
+  },
+  {
+    id: 2,
+    year: 2017,
+    userGain: "2022-08-25T15:18:53.561Z",
+    userLost: 345,
+  },
+  {
+    id: 3,
+    year: 2018,
+    userGain: "2022-08-25T15:20:53.561Z",
+    userLost: 555,
+  },
+  {
+    id: 4,
+    year: 2019,
+    userGain: "2022-08-25T15:22:53.561Z",
+    userLost: 55,
+  }
+];
+
 export default function HeaderStats() {
   const [popup, setPopup] = useState(false);
+
+  const temp = UserData.map((data) =>{
+    var dt = new Date(data.userGain);
+    var minutes = parseInt(dt.getMinutes());
+    var finalDt = Math.ceil(minutes / 5) * 5;
+    console.log(finalDt);
+    return finalDt;
+  });
+  const count = {};
+
+  for (const element of temp) {
+    if (count[element]) {
+      count[element] += 1;
+    } else {
+      count[element] = 1;
+    }
+  }
+  const finaldataY = []
+  for(var property in count) {
+    finaldataY.push(count[property]);
+  }
+  const finaldataX = []
+  for(var property in count) {
+    finaldataX.push(property);
+  }
+  console.log(count);
+  function generateDataX() {
+    return finaldataY;
+  }
+  function generateDataY() {
+    return finaldataX;
+  }
+  const [userData, setUserData] = useState({
+    labels: generateDataY(),
+    datasets: [
+      {
+        label: "Overloadings in 5 Minutes Span",
+        data: generateDataX(),
+        backgroundColor: [
+          "rgba(75,192,192,1)",
+          "#ecf0f1",
+          "#50AF95",
+          "#f3ba2f",
+          "#2a71d0",
+        ],
+        borderColor: "rgb(23 120 202)",
+        borderWidth: 2,
+      },
+    ],
+  });
+
   return (
     <>
       {/* Header */}
@@ -217,6 +301,70 @@ export default function HeaderStats() {
 
                 <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="px-4 md:px-10 mx-auto w-full mt-6">
+          <div>
+            {/* Card stats */}
+            <div className="flex flex-wrap">
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                <CardStats
+                  statSubtitle="Total Overloading"
+                  statTitle="350,897"
+                  statArrow="up"
+                  statPercent="3.48"
+                  statPercentColor="text-emerald-500"
+                  statDescripiron="Since last month"
+                  statIconName="far fa-chart-bar"
+                  statIconColor="bg-red-500"
+                />
+              </div>
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                <CardStats
+                  statSubtitle="NEW USERS"
+                  statTitle="2,356"
+                  statArrow="down"
+                  statPercent="3.48"
+                  statPercentColor="text-red-500"
+                  statDescripiron="Since last week"
+                  statIconName="fas fa-chart-pie"
+                  statIconColor="bg-orange-500"
+                />
+              </div>
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                <CardStats
+                  statSubtitle="SALES"
+                  statTitle="924"
+                  statArrow="down"
+                  statPercent="1.10"
+                  statPercentColor="text-orange-500"
+                  statDescripiron="Since yesterday"
+                  statIconName="fas fa-users"
+                  statIconColor="bg-pink-500"
+                />
+              </div>
+              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+                <CardStats
+                  statSubtitle="PERFORMANCE"
+                  statTitle="49,65%"
+                  statArrow="up"
+                  statPercent="12"
+                  statPercentColor="text-emerald-500"
+                  statDescripiron="Since last month"
+                  statIconName="fas fa-percent"
+                  statIconColor="bg-lightBlue-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='flex items-center graph_wrapper'>
+          <div className="rounded-t mb-0 px-4 py-3 border-0 graph_container">
+            <div className="flex flex-wrap items-center">
+              <div className="flex relative w-full px-4 max-w-full flex-grow flex-1">
+                <Line data={userData} />
               </div>
             </div>
           </div>
