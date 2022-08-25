@@ -57,8 +57,7 @@ export default function CardTable({ color }) {
       >
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
-            <div className="relative w-full px-4 max-w-full flex-grow flex-1">
-
+            <div className="flex relative w-full px-4 max-w-full flex-grow flex-1">
               <h3
                 className={
                   "font-semibold text-lg " +
@@ -67,7 +66,7 @@ export default function CardTable({ color }) {
               >
                 Truck Details
               </h3>
-              <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+              <i className="fas fa-redo ml-2 text-lg text-white-400 cursor-pointer" onClick={()=>{window.location.reload();}}></i>
             </div>
           </div>
         </div>
@@ -148,6 +147,13 @@ export default function CardTable({ color }) {
                   </tr> :
                   <>
                     {
+                      vehicles.length === 0 ? <tr>
+                        <th colSpan="5" className="text-center p-5">
+                          <h4 className="text-center">No Data!</h4>
+                        </th>
+                      </tr> : ""
+                    }
+                    {
                       vehicles?.map((vehicle, index) => {
 
                         return (
@@ -194,13 +200,6 @@ export default function CardTable({ color }) {
                       })
                     }
                   </>
-              }
-              {
-                  vehicles.length === 0 ? <tr>
-                  <th colSpan="5" className="text-center p-5">
-                    <h4 className="text-center">No Data!</h4>
-                  </th>
-                </tr> : ""
               }
             </tbody>
           </table>
