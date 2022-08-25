@@ -200,14 +200,14 @@ function Popup({ setPopup }) {
 export default function HeaderStats() {
 
   const [userDetails, setUserDetails] = useState([
-    { "warning": true, "creationDate": "2022-08-25T15:27:53.561Z", "weight": 202 },
-    { "warning": true, "creationDate": "2022-08-25T15:17:53.561Z", "weight": 222 },
-    { "warning": true, "creationDate": "2022-08-25T15:15:53.561Z", "weight": 232 },
-    { "warning": true, "creationDate": "2022-08-25T15:46:53.561Z", "weight": 262 },
-    { "warning": true, "creationDate": "2022-08-25T15:47:53.561Z", "weight": 292 },
-    { "warning": true, "creationDate": "2022-08-25T15:37:53.561Z", "weight": 262 },
-    { "warning": true, "creationDate": "2022-08-25T15:55:53.561Z", "weight": 282 },
-    { "warning": true, "creationDate": "2022-08-25T15:45:53.561Z", "weight": 282 }
+    // { "warning": true, "creationDate": "2022-08-25T15:27:53.561Z", "weight": 202 },
+    // { "warning": true, "creationDate": "2022-08-25T15:17:53.561Z", "weight": 222 },
+    // { "warning": true, "creationDate": "2022-08-25T15:15:53.561Z", "weight": 232 },
+    // { "warning": true, "creationDate": "2022-08-25T15:46:53.561Z", "weight": 262 },
+    // { "warning": true, "creationDate": "2022-08-25T15:47:53.561Z", "weight": 292 },
+    // { "warning": true, "creationDate": "2022-08-25T15:37:53.561Z", "weight": 262 },
+    // { "warning": true, "creationDate": "2022-08-25T15:55:53.561Z", "weight": 282 },
+    // { "warning": true, "creationDate": "2022-08-25T15:45:53.561Z", "weight": 282 }
   ]);
 
   const server = process.env.REACT_APP_SERVER_IP;
@@ -230,7 +230,7 @@ export default function HeaderStats() {
       const data = await response.json();
       setUserDetails(data.vehicles);
 
-      // called php api to get the truck data 
+      // called php api to get the truck data
       // const result = await fetch('https://bloodanytime.com/value/getdata.php', {
       //   headers: {
       //     "Content-Type": "application/json",
@@ -243,7 +243,6 @@ export default function HeaderStats() {
 
       // console.log(serverResponse);
 
-
       return;
     }
     catch (error) {
@@ -253,10 +252,9 @@ export default function HeaderStats() {
   }
   useEffect(() => {
     initialLoad();
-    return;
   }, []);
 
-  async function generateData() {
+  function generateData() {
     const temp = userDetails?.map((data) => {
       let dt = new Date(data?.creationDate);
       let minutes = parseInt(dt?.getMinutes());
@@ -271,13 +269,10 @@ export default function HeaderStats() {
         count[element] = 1;
       }
     }
+    return;
   }
 
-
   generateData();
-
-  const [finalDataY, setFinalDataY] = useState([])
-  const [finalDataX, setFinalDataX] = useState([]);
 
   function generateDataX() {
     const tempfinaldataY = []
@@ -287,6 +282,7 @@ export default function HeaderStats() {
 
     return tempfinaldataY;
   }
+
   function generateDataY() {
     const tempfinaldataX = []
     for (let property in count) {
@@ -294,18 +290,20 @@ export default function HeaderStats() {
     }
     return tempfinaldataX;
   }
-  const [userData, setUserData] = useState({
+
+  const userData = {
     labels: generateDataY(),
     datasets: [
       {
         label: "Overloading in 5 Minutes Span",
-        data: [1, 2, 3, 4, 5],
+        data: generateDataX(),
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       },
     ],
-  });
+  }
+
 
   return (
     <>
