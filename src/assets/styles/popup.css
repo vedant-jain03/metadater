@@ -1,0 +1,11 @@
+.popup_container {
+    position: absolute;
+    width: 100% !important;
+    z-index: 100;
+    background: rgba(0,0,0,0.7);
+}
+.cross_popup {
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
