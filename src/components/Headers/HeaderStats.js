@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Validator from '../../utils/Validator';
 import "../../assets/styles/popup.css"
 import { Line } from "react-chartjs-2";
@@ -196,49 +196,50 @@ function Popup({ setPopup }) {
   )
 }
 
-const UserData = [
-  {
-    id: 0,
-    year: 2016,
-    userGain: "0",
-    userLost: 823,
-  },
-  {
-    id: 1,
-    year: 2016,
-    userGain: "2022-08-25T15:17:53.561Z",
-    userLost: 823,
-  },
-  {
-    id: 2,
-    year: 2017,
-    userGain: "2022-08-25T15:18:53.561Z",
-    userLost: 345,
-  },
-  {
-    id: 3,
-    year: 2018,
-    userGain: "2022-08-25T15:20:53.561Z",
-    userLost: 555,
-  },
-  {
-    id: 4,
-    year: 2019,
-    userGain: "2022-08-25T15:22:53.561Z",
-    userLost: 55,
-  }
-];
 
 export default function HeaderStats() {
+
+  const [userDetails, setUserDetails] = useState([]);
+
+  const server = process.env.REACT_APP_SERVER_IP;
+
+  const initialLoad = async () => {
+    try {
+
+      const response = await fetch(`${server}/get-vehicle-warning-details-for-graph`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+      });
+
+      const data = await response.json();
+      setUserDetails(data.vehicles);
+      console.log(data.vehicles);
+      return;
+    }
+    catch (error) {
+      alert(error?.message);
+      return;
+    }
+  }
+
+  useEffect(() => {
+    initialLoad();
+  }, []);
+
+
+
   const [popup, setPopup] = useState(false);
 
-  const temp = UserData.map((data) =>{
-    var dt = new Date(data.userGain);
-    var minutes = parseInt(dt.getMinutes());
-    var finalDt = Math.ceil(minutes / 5) * 5;
-    console.log(finalDt);
+  const temp = userDetails?.map((data) => {
+    let dt = new Date(data?.creationDate);
+    let minutes = parseInt(dt?.getMinutes());
+    let finalDt = Math.ceil(minutes / 5) * 5;
     return finalDt;
   });
+
   const count = {};
 
   for (const element of temp) {
@@ -248,15 +249,16 @@ export default function HeaderStats() {
       count[element] = 1;
     }
   }
+
   const finaldataY = []
-  for(var property in count) {
+  for (let property in count) {
     finaldataY.push(count[property]);
   }
   const finaldataX = []
-  for(var property in count) {
+  for (let property in count) {
     finaldataX.push(property);
   }
-  console.log(count);
+
   function generateDataX() {
     return finaldataY;
   }
@@ -267,7 +269,7 @@ export default function HeaderStats() {
     labels: generateDataY(),
     datasets: [
       {
-        label: "Overloadings in 5 Minutes Span",
+        label: "Overloading in 5 Minutes Span",
         data: generateDataX(),
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
