@@ -199,7 +199,16 @@ function Popup({ setPopup }) {
 
 export default function HeaderStats() {
 
-  const [userDetails, setUserDetails] = useState([]);
+  const [userDetails, setUserDetails] = useState([
+    { "warning": true, "creationDate": "2022-08-25T15:27:53.561Z", "weight": 202 },
+    { "warning": true, "creationDate": "2022-08-25T15:17:53.561Z", "weight": 222 },
+    { "warning": true, "creationDate": "2022-08-25T15:15:53.561Z", "weight": 232 },
+    { "warning": true, "creationDate": "2022-08-25T15:46:53.561Z", "weight": 262 },
+    { "warning": true, "creationDate": "2022-08-25T15:47:53.561Z", "weight": 292 },
+    { "warning": true, "creationDate": "2022-08-25T15:37:53.561Z", "weight": 262 },
+    { "warning": true, "creationDate": "2022-08-25T15:55:53.561Z", "weight": 282 },
+    { "warning": true, "creationDate": "2022-08-25T15:45:53.561Z", "weight": 282 }
+  ]);
 
   const server = process.env.REACT_APP_SERVER_IP;
 
@@ -220,6 +229,21 @@ export default function HeaderStats() {
 
       const data = await response.json();
       setUserDetails(data.vehicles);
+
+      // called php api to get the truck data 
+      // const result = await fetch('https://bloodanytime.com/value/getdata.php', {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Accept: "application/json",
+      //   },
+      //   method: 'GET'
+      // });
+
+      // const serverResponse = await result.json();
+
+      // console.log(serverResponse);
+
+
       return;
     }
     catch (error) {
@@ -227,13 +251,16 @@ export default function HeaderStats() {
       return;
     }
   }
+  useEffect(() => {
+    initialLoad();
+    return;
+  }, []);
+
   async function generateData() {
-    await initialLoad();
     const temp = userDetails?.map((data) => {
       let dt = new Date(data?.creationDate);
       let minutes = parseInt(dt?.getMinutes());
       let finalDt = Math.ceil(minutes / 5) * 5;
-      console.log(userDetails)
       return finalDt;
     });
 
@@ -245,9 +272,9 @@ export default function HeaderStats() {
       }
     }
   }
-  useEffect(() => {
-    generateData();
-  }, []);
+
+
+  generateData();
 
   const [finalDataY, setFinalDataY] = useState([])
   const [finalDataX, setFinalDataX] = useState([]);
@@ -265,15 +292,14 @@ export default function HeaderStats() {
     for (let property in count) {
       tempfinaldataX.push(property);
     }
-
     return tempfinaldataX;
   }
   const [userData, setUserData] = useState({
-    labels: generateDataX(),
+    labels: generateDataY(),
     datasets: [
       {
         label: "Overloading in 5 Minutes Span",
-        data: generateDataY(),
+        data: [1, 2, 3, 4, 5],
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
@@ -363,7 +389,23 @@ export default function HeaderStats() {
           <div className="rounded-t mb-0 px-4 py-3 border-0 graph_container">
             <div className="flex flex-wrap items-center">
               <div className="flex relative w-full px-4 max-w-full flex-grow flex-1">
-                <Line data={userData} />
+                <Line data={userData}
+                  options={{
+                    responsive: true,
+                    radius: 3,
+                    hitRadius: 5,
+                    hoverRadius: 5,
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: 'Truck details'
+                      },
+                    },
+                    interaction: {
+                      intersect: true
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>
