@@ -203,6 +203,10 @@ export default function HeaderStats() {
 
   const server = process.env.REACT_APP_SERVER_IP;
 
+
+  const [popup, setPopup] = useState(false);
+  const count = {};
+
   const initialLoad = async () => {
     try {
 
@@ -216,7 +220,6 @@ export default function HeaderStats() {
 
       const data = await response.json();
       setUserDetails(data.vehicles);
-      console.log(data.vehicles);
       return;
     }
     catch (error) {
@@ -224,53 +227,53 @@ export default function HeaderStats() {
       return;
     }
   }
+  async function generateData() {
+    await initialLoad();
+    const temp = userDetails?.map((data) => {
+      let dt = new Date(data?.creationDate);
+      let minutes = parseInt(dt?.getMinutes());
+      let finalDt = Math.ceil(minutes / 5) * 5;
+      console.log(userDetails)
+      return finalDt;
+    });
 
-  useEffect(() => {
-    initialLoad();
-  }, []);
-
-
-
-  const [popup, setPopup] = useState(false);
-
-  const temp = userDetails?.map((data) => {
-    let dt = new Date(data?.creationDate);
-    let minutes = parseInt(dt?.getMinutes());
-    let finalDt = Math.ceil(minutes / 5) * 5;
-    return finalDt;
-  });
-
-  const count = {};
-
-  for (const element of temp) {
-    if (count[element]) {
-      count[element] += 1;
-    } else {
-      count[element] = 1;
+    for (const element of temp) {
+      if (count[element]) {
+        count[element] += 1;
+      } else {
+        count[element] = 1;
+      }
     }
   }
+  useEffect(() => {
+    generateData();
+  }, []);
 
-  const finaldataY = []
-  for (let property in count) {
-    finaldataY.push(count[property]);
-  }
-  const finaldataX = []
-  for (let property in count) {
-    finaldataX.push(property);
-  }
+  const [finalDataY, setFinalDataY] = useState([])
+  const [finalDataX, setFinalDataX] = useState([]);
 
   function generateDataX() {
-    return finaldataY;
+    const tempfinaldataY = []
+    for (let property in count) {
+      tempfinaldataY.push(count[property]);
+    }
+
+    return tempfinaldataY;
   }
   function generateDataY() {
-    return finaldataX;
+    const tempfinaldataX = []
+    for (let property in count) {
+      tempfinaldataX.push(property);
+    }
+
+    return tempfinaldataX;
   }
   const [userData, setUserData] = useState({
-    labels: generateDataY(),
+    labels: generateDataX(),
     datasets: [
       {
         label: "Overloading in 5 Minutes Span",
-        data: generateDataX(),
+        data: generateDataY(),
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
