@@ -11,6 +11,8 @@ function Popup({ setPopup }) {
   const [truckNumber, setTruckNumber] = useState("");
   const [location, setLocation] = useState("");
   const [authority, setAuthority] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+
 
   const [validator, showValidationMessage] = Validator();
 
@@ -36,7 +38,8 @@ function Popup({ setPopup }) {
         body: JSON.stringify({
           number: truckNumber,
           location,
-          authority
+          authority,
+          mobileNumber
         }),
       });
 
@@ -147,6 +150,30 @@ function Popup({ setPopup }) {
                         submitHandler: handleSubmit
                       })}
                   </div>
+
+
+                  <div className="relative w-full mb-3">
+                    <label
+                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      htmlFor="grid-password"
+                    >
+                      Mobile Number
+                    </label>
+                    <input
+                      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                      placeholder="Enter your mobile number"
+                      type="phone"
+                      onChange={(e) => setMobileNumber(e.target.value)}
+                    />
+                    {
+                      validator.message("mobileNumber", mobileNumber, "required|min:10|max:10", {
+                        messages: {
+                          required: "Mobile number is required"
+                        },
+                        submitHandler: handleSubmit
+                      })}
+                  </div>
+
 
                   <div className="text-center mt-6">
                     <button
