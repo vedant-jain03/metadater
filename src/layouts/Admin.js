@@ -62,7 +62,6 @@ export default function Admin() {
     }
   }, [])
 
-  console.log(auth);
 
   return (
     <>

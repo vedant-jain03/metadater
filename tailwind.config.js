@@ -79,6 +79,9 @@ module.exports = {
       backgroundSize: {
         full: "100%",
       },
+      flex: {
+        '2': '2 2 0%'
+      }
     },
   },
   variants: [

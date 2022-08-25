@@ -55,6 +55,7 @@ export default function CardTable({ color }) {
         <div className="rounded-t mb-0 px-4 py-3 border-0">
           <div className="flex flex-wrap items-center">
             <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+
               <h3
                 className={
                   "font-semibold text-lg " +
@@ -165,11 +166,11 @@ export default function CardTable({ color }) {
                         <i className="fas fa-circle text-red-500 mr-2"></i> Over
                       </td> */}
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                              {vehicle?.driver}
+                              {vehicle?.authority}
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                               <div className="flex items-center">
-                                <span className="mr-2">{vehicle?.warning}</span>
+                                <span className="mr-2">{vehicle?.warning}/5</span>
                                 {/* <div className="relative w-full">
                             <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
                               <div
