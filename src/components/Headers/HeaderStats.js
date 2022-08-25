@@ -269,15 +269,9 @@ export default function HeaderStats() {
       {
         label: "Overloadings in 5 Minutes Span",
         data: generateDataX(),
-        backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
-        borderColor: "rgb(23 120 202)",
-        borderWidth: 2,
+        fill: true,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)"
       },
     ],
   });
