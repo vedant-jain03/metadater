@@ -9,6 +9,9 @@ import TableDropdown from "components/Dropdowns/TableDropdown.js";
 
 export default function CardTable({ color }) {
 
+  useEffect(() => {
+    document.title = 'Dashboard';
+  });
 
   const [vehicles, setVehicles] = useState([]);
 
@@ -63,6 +66,7 @@ export default function CardTable({ color }) {
               >
                 Truck Details
               </h3>
+              <i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
             </div>
           </div>
         </div>
@@ -189,6 +193,13 @@ export default function CardTable({ color }) {
                       })
                     }
                   </>
+              }
+              {
+                  vehicles.length === 0 ? <tr>
+                  <th colSpan="5" className="text-center p-5">
+                    <h4 className="text-center">No Data!</h4>
+                  </th>
+                </tr> : ""
               }
             </tbody>
           </table>

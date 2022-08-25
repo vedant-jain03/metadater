@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import background1 from "../images/background1.png";
 import aboutUs from "../images/aboutUs.jpeg"
@@ -9,6 +9,10 @@ import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 export default function Landing() {
+  useEffect(() => {
+    document.title = 'Metadaters';
+  });
+
   return (
     <>
       <IndexNavbar fixed />
