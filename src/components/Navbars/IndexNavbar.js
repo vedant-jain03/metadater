@@ -1,11 +1,67 @@
 /*eslint-disable*/
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 // components
 
 import IndexDropdown from "components/Dropdowns/IndexDropdown.js";
 
 export default function Navbar(props) {
+
+  const history = useHistory();
+
+  const [auth, setAuth] = React.useState(true);
+
+  const initialLoad = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_SERVER_IP}/get-admin-authenticate-by-jwt`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.status === "SUCCESS") {
+        localStorage.setItem("jwtToken", data.jwtToken);
+        setAuth(true);
+        return;
+      }
+      else {
+        localStorage.removeItem("jwtToken");
+        setAuth(false);
+        return;
+      }
+
+    }
+    catch (error) {
+      alert(error?.message);
+      return;
+    }
+  }
+
+  React.useEffect(() => {
+
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (jwtToken) {
+      setAuth(true);
+    } else {
+      setAuth(false);
+      initialLoad();
+    }
+  }, [])
+
+  const logout = async () => {
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userDetails");
+    setAuth(false);
+    history.push("/");
+    return;
+  }
+
+
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <>
@@ -38,15 +94,25 @@ export default function Navbar(props) {
                 <IndexDropdown />
               </li>
 
-              {/* <li className="flex items-center">
-                <Link
-                  className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
-                  type="button"
-                  to="/auth"
-                >
-                  Sign In
-                </Link>
-              </li> */}
+              <li className="flex items-center">
+                {
+                  auth ?
+                    <button
+                      className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+                      onClick={() => { logout() }}
+                      type="button">
+                      Logout
+                    </button>
+                    :
+                    <Link
+                      className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150"
+                      type="button"
+                      to="/auth"
+                    >
+                      Sign In
+                    </Link>
+                }
+              </li>
             </ul>
           </div>
         </div>
