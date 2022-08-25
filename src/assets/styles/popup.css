@@ -2,15 +2,25 @@
     position: absolute;
     max-width: 100% !important;
     z-index: 1;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 }
+
 .cross-popup {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 8px;
     padding: 0px 8px;
     border-radius: 50%;
     cursor: pointer;
     color: #20263c;
     box-shadow: 0 0 5px 2px #c6c6c6;
+    /* width: 100% !important; */
+    z-index: 100;
+    /* background: rgba(0, 0, 0, 0.7); */
+}
+
+.cross_popup {
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
 }

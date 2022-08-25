@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Validator from '../../utils/Validator';
 import "../../assets/styles/popup.css"
+
+
 // components
 import CardStats from "components/Cards/CardStats.js";
 
@@ -123,12 +125,14 @@ function Popup({ setPopup }) {
                         submitHandler: handleSubmit
                       })}
                   </div>
+
+
                   <div className="relative w-full mb-3">
                     <label
                       className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="grid-password"
                     >
-                      Authority
+                      Authority name
                     </label>
                     <input
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
@@ -143,11 +147,14 @@ function Popup({ setPopup }) {
                         submitHandler: handleSubmit
                       })}
                   </div>
+
                   <div className="text-center mt-6">
                     <button
                       className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                       type="button"
+
                       onClick={(e) => { handleSubmit(e) }}
+
                     >
                       Submit
                     </button>
@@ -168,6 +175,7 @@ export default function HeaderStats() {
     <>
       {/* Header */}
       {(popup) ? <Popup setPopup={setPopup} /> : ""}
+
       <div className="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12">
         <div className="container relative mx-auto">
           <div className="items-center flex flex-wrap">
@@ -179,7 +187,9 @@ export default function HeaderStats() {
                 <p className="mt-4 text-lg text-blueGray-200">
                   The list of all trucks along with the action items!
                 </p>
+
                 <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
+
               </div>
             </div>
           </div>
