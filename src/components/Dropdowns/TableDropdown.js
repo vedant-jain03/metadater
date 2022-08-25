@@ -1,7 +1,52 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
 
-const NotificationDropdown = () => {
+const NotificationDropdown = ({ Id, initialLoad }) => {
+
+  const server = process.env.REACT_APP_SERVER_IP;
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+
+      const response = await fetch(`${server}/update-vehicle-warning`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+        body: JSON.stringify({
+          id: Id,
+          warning: 1
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "SUCCESS") {
+        alert(data?.message);
+        setDropdownPopoverShow(false);
+        initialLoad();
+        return;
+      }
+      else if (data.status === "FAILED" && data.message === "Validation Errors") {
+        alert(data?.validationErrorsList[data?.validationErrorsList?.length - 1]?.message);
+        return;
+      }
+      else {
+        alert(data?.message);
+        return;
+      }
+
+    } catch (error) {
+      alert(error?.message);
+      return;
+    }
+
+  }
+
+
   // dropdown props
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
@@ -40,11 +85,11 @@ const NotificationDropdown = () => {
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
           }
-          onClick={(e) => e.preventDefault()}
+          onClick={(e) => handleSubmit(e)}
         >
-          Action
+          add warning
         </a>
-        <a
+        {/* <a
           href="#pablo"
           className={
             "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
@@ -61,7 +106,7 @@ const NotificationDropdown = () => {
           onClick={(e) => e.preventDefault()}
         >
           Something else here
-        </a>
+        </a> */}
       </div>
     </>
   );
