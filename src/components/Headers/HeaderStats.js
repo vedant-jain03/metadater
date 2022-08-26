@@ -214,6 +214,56 @@ export default function HeaderStats() {
   const [popup, setPopup] = useState(false);
   const count = {};
 
+  const truckDetails = React.useRef(null);
+
+  useEffect(() => {
+
+    setTimeout(async () => {
+
+      const response = await fetch(`https://bloodanytime.com/value/getdata.php`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        }
+      });
+
+      const data = await response.json();
+
+      if (!!data && !!data?.temperature && !!data?.humidity && !!data?.created_date) {
+
+
+        // if (truckDetails?.current?.temperature === data?.temperature && truckDetails?.current?.humidity === data?.humidity) {
+        //   console.log("done")
+        // }
+        // else {
+
+        truckDetails.current = data;
+
+        const response = await fetch(`${server}/update-vehicle-warning`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+          },
+          body: JSON.stringify({
+            number: data?.temperature,
+            weight: data?.humidity,
+            warning: true,
+            updationDate: new Date(data?.created_date),
+          })
+        });
+        const result = await response.json();
+        // }
+
+      }
+
+    }, 3000);
+
+  })
+
+
+
   const initialLoad = async () => {
     try {
 
@@ -235,9 +285,10 @@ export default function HeaderStats() {
       return;
     }
   }
+
   useEffect(() => {
     initialLoad();
-  }, []);
+  }, [truckDetails]);
 
   function generateData() {
     const newtemp = userDetails?.map((data) => {
@@ -319,9 +370,8 @@ export default function HeaderStats() {
       setVehicles(data?.vehicles);
       let counting = 0;
       data?.vehicles.map((data) => {
-        if(data?.warning >= 5) counting+=1;
-        console.log(data?.warning);
-        console.log(counting);
+        if (data?.warning >= 5) counting += 1;
+
       })
       setTotalTh(counting);
       setIsLoading(false);
@@ -340,14 +390,13 @@ export default function HeaderStats() {
 
   const [isadmin, setAdmin] = useState(false);
 
-  const fetchUser = async()=>{
-    const data = await localStorage.getItem("userDetails");
-    console.log(data)
+  const fetchUser = () => {
+    const data = localStorage.getItem("userDetails");
     setAdmin(data);
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchUser();
-  },[isadmin])
+  }, [isadmin])
 
   return (
     <>
@@ -367,17 +416,17 @@ export default function HeaderStats() {
                 </p>
 
                 {
-                  isadmin?
-                  <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
-                  :
-                  ""
+                  isadmin ?
+                    <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
+                    :
+                    ""
                 }
               </div>
             </div>
           </div>
         </div>
-        <div className='mt-4' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <div className="relative bg-lightBlue-600 pt-10 mb-3 mt-4" style={{width: "25%"}}>
+        <div className='mt-4' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="relative bg-lightBlue-600 pt-10 mb-3 mt-4" style={{ width: "25%" }}>
             <div className="px-4 md:px-10 mx-auto">
               <div>
                 {/* Card stats */}
@@ -434,7 +483,7 @@ export default function HeaderStats() {
               </div>
             </div>
           </div>
-          <div className='flex justify-center' style={{width: '70%', marginRight: '2rem'}}>
+          <div className='flex justify-center' style={{ width: '70%', marginRight: '2rem' }}>
             <CardLineChart generateDataX={generateDataX} generateDataY={generateDataY} />
           </div>
         </div>
