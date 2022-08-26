@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Validator from '../../utils/Validator';
 import "../../assets/styles/popup.css"
-import { Line } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
 import CardStats from "components/Cards/CardStats.js";
-
+import CardLineChart from "components/Cards/CardLineChart";
 
 
 function Popup({ setPopup }) {
@@ -255,7 +253,6 @@ export default function HeaderStats() {
     for (const element of temp) {
       let dt = new Date(element);
       let ele = (parseInt(dt.getDate()))
-      console.log(ele);
       if (count[ele]) {
         count[ele] += 1;
       } else {
@@ -321,7 +318,11 @@ export default function HeaderStats() {
       const data = await response.json();
       setVehicles(data?.vehicles);
       let counting = 0;
-      data?.vehicles.map((data) => counting = counting + (data?.warning >= 5)?1:0)
+      data?.vehicles.map((data) => {
+        if(data?.warning >= 5) counting+=1;
+        console.log(data?.warning);
+        console.log(counting);
+      })
       setTotalTh(counting);
       setIsLoading(false);
       return;
@@ -336,6 +337,17 @@ export default function HeaderStats() {
   useEffect(() => {
     initialLoading();
   }, []);
+
+  const [isadmin, setAdmin] = useState(false);
+
+  const fetchUser = async()=>{
+    const data = await localStorage.getItem("userDetails");
+    console.log(data)
+    setAdmin(data);
+  }
+  useEffect(()=>{
+    fetchUser();
+  },[isadmin])
 
   return (
     <>
@@ -354,91 +366,76 @@ export default function HeaderStats() {
                   The list of all trucks along with the action items!
                 </p>
 
-                <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
-
+                {
+                  isadmin?
+                  <button className="bg-lightBlue-500 text-white active:bg-lightBlue-600 text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 mt-3 ease-linear transition-all duration-150" onClick={() => setPopup(true)}>Add Details</button>
+                  :
+                  ""
+                }
               </div>
             </div>
           </div>
         </div>
-        <div className='flex justify-center'>
-          <div className='px-4 md:pl-10 mx-auto mt-6 left_wrapper'>
-            <div className='flex flex-wrap'>
-              <div className="w-full lg:w-6/12 xl:w-6/12 px-4">
-                <CardStats
-                  statSubtitle="Total Warnings"
-                  statTitle={userDetails?.length}
-                  statArrow="up"
-                  statPercent="3.48"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="far fa-chart-bar"
-                  statIconColor="bg-red-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-6/12 px-4">
-                <CardStats
-                  statSubtitle="Last Truck Number Detected"
-                  statTitle={vehicles[vehicles.length -1]?.number}
-                  statArrow="down"
-                  statPercent="3.48"
-                  statPercentColor="text-red-500"
-                  statDescripiron="Since last week"
-                  statIconName="fas fa-chart-pie"
-                  statIconColor="bg-orange-500"
-                />
-              </div>
-            </div>
-            <div className='flex flex-wrap'>
-              <div className="w-full lg:w-6/12 xl:w-6/12 px-4 mt-4">
-                <CardStats
-                  statSubtitle="Recent Detected Location"
-                  statTitle={vehicles[vehicles.length -1]?.location}
-                  statArrow="up"
-                  statPercent="3.48"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="far fa-chart-bar"
-                  statIconColor="bg-red-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-6/12 px-4 mt-4">
-                <CardStats
-                  statSubtitle="Total threshold cross"
-                  statTitle={totalTh}
-                  statArrow="down"
-                  statPercent="3.48"
-                  statPercentColor="text-red-500"
-                  statDescripiron="Since last week"
-                  statIconName="fas fa-chart-pie"
-                  statIconColor="bg-orange-500"
-                />
-              </div>
-            </div>
-          </div>
-          <div className='flex items-center graph_wrapper'>
-            <div className="rounded-t mb-0 px-4 py-3 border-0 graph_container">
-              <div className="flex flex-wrap items-center">
-                <div className="flex relative w-full max-w-full flex-grow flex-1">
-                  <Line data={userData}
-                    options={{
-                      responsive: true,
-                      radius: 3,
-                      hitRadius: 5,
-                      hoverRadius: 5,
-                      plugins: {
-                        title: {
-                          display: true,
-                          text: 'Truck details'
-                        },
-                      },
-                      interaction: {
-                        intersect: true
-                      }
-                    }}
-                  />
+        <div className='mt-4' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div className="relative bg-lightBlue-600 pt-10 mb-3 mt-4" style={{width: "25%"}}>
+            <div className="px-4 md:px-10 mx-auto">
+              <div>
+                {/* Card stats */}
+                <div className="flex flex-wrap flex-col">
+                  <div className="w-full mb-4">
+                    <CardStats
+                      statSubtitle="Total Warnings"
+                      statTitle={userDetails?.length}
+                      statArrow="up"
+                      statPercent="3.48"
+                      statPercentColor="text-emerald-500"
+                      statDescripiron="Since last month"
+                      statIconName="far fa-chart-bar"
+                      statIconColor="bg-red-500"
+                    />
+                  </div>
+                  <div className="w-full mb-4">
+                    <CardStats
+                      statSubtitle="Last Detected T.Number"
+                      statTitle={vehicles[vehicles.length - 1]?.number}
+                      statArrow="down"
+                      statPercent="3.48"
+                      statPercentColor="text-red-500"
+                      statDescripiron="Since last week"
+                      statIconName="fas fa-chart-pie"
+                      statIconColor="bg-orange-500"
+                    />
+                  </div>
+                  <div className="w-full mb-4">
+                    <CardStats
+                      statSubtitle="Total threshold cross"
+                      statTitle={totalTh}
+                      statArrow="down"
+                      statPercent="1.10"
+                      statPercentColor="text-orange-500"
+                      statDescripiron="Since yesterday"
+                      statIconName="fas fa-users"
+                      statIconColor="bg-pink-500"
+                    />
+                  </div>
+                  <div className="w-full mb-4">
+                    <CardStats
+                      statSubtitle="Last Detected Location"
+                      statTitle={vehicles[vehicles.length - 1]?.location}
+                      statArrow="up"
+                      statPercent="12"
+                      statPercentColor="text-emerald-500"
+                      statDescripiron="Since last month"
+                      statIconName="fas fa-percent"
+                      statIconColor="bg-lightBlue-500"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div className='flex justify-center' style={{width: '70%', marginRight: '2rem'}}>
+            <CardLineChart generateDataX={generateDataX} generateDataY={generateDataY} />
           </div>
         </div>
       </div>
