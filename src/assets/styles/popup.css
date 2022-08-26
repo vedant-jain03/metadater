@@ -49,3 +49,40 @@
 .line_chart {
     width: 100%;
 }
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+    } 
+body {
+    top: 0px !important; 
+    }
+.goog-logo-link {
+    display: none !important;
+}
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+    } 
+  body {
+    top: 0px !important; 
+    }
+    .goog-logo-link {
+      display:none !important;
+   }
+   
+   .goog-te-gadget {
+     color: transparent !important;
+     position: relative;
+     top: 5px;
+   }
+   
+   .goog-te-gadget .goog-te-combo {
+    color: #ffffff !important;
+    background: #1778ca !important;
+    border: 0;
+    padding: 6px;
+    border-radius: 3px;
+    outline: none;
+    font-weight: bold;
+   }
+   #goog-gt-tt {
+     display: none !important;
+   }

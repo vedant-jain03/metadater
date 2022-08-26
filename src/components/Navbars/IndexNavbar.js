@@ -93,7 +93,7 @@ export default function Navbar(props) {
               <li className="flex items-center">
                 <IndexDropdown />
               </li>
-
+              <div style={{ marginRight: "15px" }} id="google_translate_element"></div>
               <li className="flex items-center">
                 {
                   auth ?

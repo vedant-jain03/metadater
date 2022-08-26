@@ -432,10 +432,10 @@ export default function CardTable({ color }) {
                         return (
 
                           <tr key={index} >
-                            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
+                            <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center notranslate">
                               <span
                                 className={
-                                  "ml-3 font-bold " +
+                                  "ml-3 font-bold notranslate" +
                                   +(color === "light" ? "text-blueGray-600" : "text-white")
                                 }
                               >
