@@ -1,0 +1,3 @@
+[submodule "metadaters-backend"]
+	path = metadaters-backend
+	url = https://github.com/mohitkadwe19/metadaters-backend.git
