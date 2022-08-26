@@ -3,7 +3,7 @@ import Validator from '../../utils/Validator';
 import "../../assets/styles/popup.css"
 import CardStats from "components/Cards/CardStats.js";
 import CardLineChart from "components/Cards/CardLineChart";
-
+import "../../assets/styles/popup.css"
 
 function Popup({ setPopup }) {
   const [truckNumber, setTruckNumber] = useState("");
@@ -493,7 +493,7 @@ export default function HeaderStats() {
                       statIconColor="bg-red-500"
                     />
                   </div>
-                  <div className="w-full mb-4">
+                  <div className="w-full mb-4 notranslate">
                     <CardStats
                       statSubtitle="Last Detected T.Number"
                       statTitle={vehicles[vehicles.length - 1]?.number}
