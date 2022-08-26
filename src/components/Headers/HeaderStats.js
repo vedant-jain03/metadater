@@ -230,19 +230,6 @@ export default function HeaderStats() {
       const data = await response.json();
       setUserDetails(data.vehicles);
 
-      // called php api to get the truck data
-      // const result = await fetch('https://bloodanytime.com/value/getdata.php', {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Accept: "application/json",
-      //   },
-      //   method: 'GET'
-      // });
-
-      // const serverResponse = await result.json();
-
-      // console.log(serverResponse);
-
       return;
     }
     catch (error) {
@@ -255,18 +242,24 @@ export default function HeaderStats() {
   }, []);
 
   function generateData() {
-    const temp = userDetails?.map((data) => {
-      let dt = new Date(data?.creationDate);
-      let minutes = parseInt(dt?.getMinutes());
-      let finalDt = Math.ceil(minutes / 5) * 5;
-      return finalDt;
+    const newtemp = userDetails?.map((data) => {
+      return data?.creationDate;
     });
+    const temp = newtemp.sort(function (a, b) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return new Date(b.date) - new Date(a.date);
+    });
+    count[0] = 0;
 
     for (const element of temp) {
-      if (count[element]) {
-        count[element] += 1;
+      let dt = new Date(element);
+      let ele = (parseInt(dt.getDate()))
+      console.log(ele);
+      if (count[ele]) {
+        count[ele] += 1;
       } else {
-        count[element] = 1;
+        count[ele] = 1;
       }
     }
     return;
@@ -286,6 +279,12 @@ export default function HeaderStats() {
   function generateDataY() {
     const tempfinaldataX = []
     for (let property in count) {
+      let today = new Date(property);
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = mm + '/' + dd + '/' + yyyy;
       tempfinaldataX.push(property);
     }
     return tempfinaldataX;
@@ -295,7 +294,7 @@ export default function HeaderStats() {
     labels: generateDataY(),
     datasets: [
       {
-        label: "Overloading in 5 Minutes Span",
+        label: "Overloading in 5 Minutes Span, x-axis: Dates, y-axis: overload dumper",
         data: generateDataX(),
         fill: true,
         backgroundColor: "rgba(75,192,192,0.2)",
@@ -304,6 +303,39 @@ export default function HeaderStats() {
     ],
   }
 
+  const [vehicles, setVehicles] = useState([]);
+
+  const [IsLoading, setIsLoading] = useState(false);
+  const [totalTh, setTotalTh] = useState(0);
+  const initialLoading = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`${server}/get-vehicles`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+      });
+
+      const data = await response.json();
+      setVehicles(data?.vehicles);
+      let counting = 0;
+      data?.vehicles.map((data) => counting = counting + (data?.warning >= 5)?1:0)
+      setTotalTh(counting);
+      setIsLoading(false);
+      return;
+    }
+    catch (error) {
+      alert(error?.message);
+      setIsLoading(false);
+      return;
+    }
+  }
+
+  useEffect(() => {
+    initialLoading();
+  }, []);
 
   return (
     <>
@@ -328,14 +360,13 @@ export default function HeaderStats() {
             </div>
           </div>
         </div>
-        <div className="px-4 md:px-10 mx-auto w-full mt-6">
-          <div>
-            {/* Card stats */}
-            <div className="flex flex-wrap">
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+        <div className='flex justify-center'>
+          <div className='px-4 md:pl-10 mx-auto mt-6 left_wrapper'>
+            <div className='flex flex-wrap'>
+              <div className="w-full lg:w-6/12 xl:w-6/12 px-4">
                 <CardStats
-                  statSubtitle="Total Overloading"
-                  statTitle="350,897"
+                  statSubtitle="Total Warnings"
+                  statTitle={userDetails?.length}
                   statArrow="up"
                   statPercent="3.48"
                   statPercentColor="text-emerald-500"
@@ -344,10 +375,10 @@ export default function HeaderStats() {
                   statIconColor="bg-red-500"
                 />
               </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+              <div className="w-full lg:w-6/12 xl:w-6/12 px-4">
                 <CardStats
-                  statSubtitle="NEW USERS"
-                  statTitle="2,356"
+                  statSubtitle="Last Truck Number Detected"
+                  statTitle={vehicles[vehicles.length -1]?.number}
                   statArrow="down"
                   statPercent="3.48"
                   statPercentColor="text-red-500"
@@ -356,54 +387,56 @@ export default function HeaderStats() {
                   statIconColor="bg-orange-500"
                 />
               </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
+            </div>
+            <div className='flex flex-wrap'>
+              <div className="w-full lg:w-6/12 xl:w-6/12 px-4 mt-4">
                 <CardStats
-                  statSubtitle="SALES"
-                  statTitle="924"
-                  statArrow="down"
-                  statPercent="1.10"
-                  statPercentColor="text-orange-500"
-                  statDescripiron="Since yesterday"
-                  statIconName="fas fa-users"
-                  statIconColor="bg-pink-500"
-                />
-              </div>
-              <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-                <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
+                  statSubtitle="Recent Detected Location"
+                  statTitle={vehicles[vehicles.length -1]?.location}
                   statArrow="up"
-                  statPercent="12"
+                  statPercent="3.48"
                   statPercentColor="text-emerald-500"
                   statDescripiron="Since last month"
-                  statIconName="fas fa-percent"
-                  statIconColor="bg-lightBlue-500"
+                  statIconName="far fa-chart-bar"
+                  statIconColor="bg-red-500"
+                />
+              </div>
+              <div className="w-full lg:w-6/12 xl:w-6/12 px-4 mt-4">
+                <CardStats
+                  statSubtitle="Total threshold cross"
+                  statTitle={totalTh}
+                  statArrow="down"
+                  statPercent="3.48"
+                  statPercentColor="text-red-500"
+                  statDescripiron="Since last week"
+                  statIconName="fas fa-chart-pie"
+                  statIconColor="bg-orange-500"
                 />
               </div>
             </div>
           </div>
-        </div>
-        <div className='flex items-center graph_wrapper'>
-          <div className="rounded-t mb-0 px-4 py-3 border-0 graph_container">
-            <div className="flex flex-wrap items-center">
-              <div className="flex relative w-full px-4 max-w-full flex-grow flex-1">
-                <Line data={userData}
-                  options={{
-                    responsive: true,
-                    radius: 3,
-                    hitRadius: 5,
-                    hoverRadius: 5,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: 'Truck details'
+          <div className='flex items-center graph_wrapper'>
+            <div className="rounded-t mb-0 px-4 py-3 border-0 graph_container">
+              <div className="flex flex-wrap items-center">
+                <div className="flex relative w-full max-w-full flex-grow flex-1">
+                  <Line data={userData}
+                    options={{
+                      responsive: true,
+                      radius: 3,
+                      hitRadius: 5,
+                      hoverRadius: 5,
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: 'Truck details'
+                        },
                       },
-                    },
-                    interaction: {
-                      intersect: true
-                    }
-                  }}
-                />
+                      interaction: {
+                        intersect: true
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

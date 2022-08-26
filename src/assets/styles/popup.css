@@ -26,7 +26,7 @@
 }
 
 .graph_container {
-    width: 40%;
+    width: 100%;
     background: white;
     overflow: hidden;
     --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -37,5 +37,12 @@
 .graph_wrapper {
     display: flex;
     justify-content: center;
+    width: 40%;
+    margin-right: 3rem;
+}
+
+.left_wrapper {
+    width: 50%;
+    margin: 0;
     margin-top: 1rem;
 }

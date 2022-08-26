@@ -453,7 +453,7 @@ export default function CardTable({ color }) {
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                               <div className="flex items-center">
-                                <span className="mr-2">{vehicle?.warning}/5</span>
+                                <span className="mr-2">{(vehicle?.warning == 0)?1:vehicle?.warning}</span>
                                 {/* <div className="relative w-full">
                             <div className="overflow-hidden h-2 text-xs flex rounded bg-red-200">
                               <div
