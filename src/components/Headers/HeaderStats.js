@@ -262,7 +262,7 @@ export default function HeaderStats() {
 
       }
 
-    }, 5000);
+    }, 7000);
 
     // setTimeout(async () => {
 
