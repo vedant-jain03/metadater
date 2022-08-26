@@ -218,7 +218,7 @@ export default function HeaderStats() {
 
   useEffect(() => {
 
-    setTimeout(async () => {
+    setInterval(async () => {
 
       const response = await fetch(`https://bloodanytime.com/value/getdata.php`, {
         method: "GET",
@@ -230,35 +230,85 @@ export default function HeaderStats() {
 
       const data = await response.json();
 
+      console.log("data", data);
+
       if (!!data && !!data?.temperature && !!data?.humidity && !!data?.created_date) {
 
 
-        // if (truckDetails?.current?.temperature === data?.temperature && truckDetails?.current?.humidity === data?.humidity) {
-        //   console.log("done")
-        // }
-        // else {
+        if (truckDetails?.current?.temperature === data?.temperature && truckDetails?.current?.humidity === data?.humidity) {
+          console.log("done")
+        }
+        else {
 
-        truckDetails.current = data;
+          truckDetails.current = data;
 
-        const response = await fetch(`${server}/update-vehicle-warning`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-          },
-          body: JSON.stringify({
-            number: data?.temperature,
-            weight: data?.humidity,
-            warning: true,
-            updationDate: new Date(data?.created_date),
-          })
-        });
-        const result = await response.json();
-        // }
+          const response = await fetch(`${server}/update-vehicle-warning`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            body: JSON.stringify({
+              number: data?.temperature,
+              weight: data?.humidity,
+              warning: true,
+              updationDate: data?.created_date,
+            })
+          });
+
+          const result = await response.json();
+          console.log("result", result);
+        }
 
       }
 
-    }, 3000);
+    }, 5000);
+
+    // setTimeout(async () => {
+
+    //   const response = await fetch(`https://bloodanytime.com/value/getdata.php`, {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Accept": "application/json",
+    //     }
+    //   });
+
+    //   const data = await response.json();
+
+    //   console.log("data", data);
+
+    //   if (!!data && !!data?.temperature && !!data?.humidity && !!data?.created_date) {
+
+
+    //     // if (truckDetails?.current?.temperature === data?.temperature && truckDetails?.current?.humidity === data?.humidity) {
+    //     //   console.log("done")
+    //     // }
+    //     // else {
+
+    //     truckDetails.current = data;
+
+    //     const response = await fetch(`${server}/update-vehicle-warning`, {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+    //       },
+    //       body: JSON.stringify({
+    //         number: data?.temperature,
+    //         weight: data?.humidity,
+    //         warning: true,
+    //         updationDate: data?.created_date,
+    //       })
+    //     });
+    //     const result = await response.json();
+    //     // }
+
+    //     console.log("result", result);
+
+    //   }
+
+    // }, 3000);
 
   })
 
